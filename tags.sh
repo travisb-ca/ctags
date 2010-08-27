@@ -14,7 +14,7 @@ fi
 
 for directory in `cat ~/.projects`; do
 	echo "Creating databases for ${directory}"
-	ctags -f "${directory}/tags" -R --extra=+fq --fields=+afiksSt ${directory}
-	mkid -p .svn -p CVS -p .git -o ${directory}/ID ${directory} 
+	ctags -f "${directory}/tags" --exclude=.git -R --extra=+fq --fields=+afiksSt ${directory}
+	mkid -p .svn -p CVS -p .git -x lisp -o ${directory}/ID ${directory} 
 done
 
