@@ -19,13 +19,12 @@ fi
 
 while read directory exclusions; do
 	echo "Creating databases for ${directory}"
-    ctags_exclude=""
-    mkid_exclude=""
-    for dir in $exclusions; do
-        ctags_exclude="${ctags_exclude} --exclude=${directory}/${dir}"
-        mkid_exclude="${mkid_exclude} --prune=${directory}/${dir}"
-    done
-    echo $ctags_exclude
+	ctags_exclude=""
+	mkid_exclude=""
+	for dir in $exclusions; do
+		ctags_exclude="${ctags_exclude} --exclude=${directory}/${dir}"
+		mkid_exclude="${mkid_exclude} --prune=${directory}/${dir}"
+	done
 	ctags -f "${directory}/tags" --exclude=.git ${ctags_exclude} -R --extra=+fq --fields=+afiksSt ${directory}
 	mkid -p .svn -p CVS -p .git -x lisp ${mkid_exclude} -o ${directory}/ID ${directory} 
 done < ~/.projects
