@@ -26,6 +26,6 @@ while read directory exclusions; do
 		mkid_exclude="${mkid_exclude} --prune=${directory}/${dir}"
 	done
 	ctags -f "${directory}/tags" --exclude=.git --exclude=.repo ${ctags_exclude} -R --extra=+fq --fields=+afiksSt ${directory}
-	mkid -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -x lisp ${mkid_exclude} -o ${directory}/ID ${directory} 2 > /dev/null
+	mkid -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -x lisp ${mkid_exclude} -o ${directory}/ID ${directory} 2> /dev/null
 done < ~/.projects
 
