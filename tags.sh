@@ -12,12 +12,13 @@ tags_file="/Volumes/UserBackup/TBrown/work/workspace/tags"
 id_file="/Volumes/UserBackup/TBrown/work/workspace/ID"
 source_files="/Volumes/UserBackup/TBrown/work/workspace"
 
-if [ ! -e ~/.projects ]; then
-	echo "No ~/.projects file. No databases to update"
-	exit
-fi
+# First arg is the directory to process.
+# Any other args are subdrectories to skip
+function process {
+        directory=$1
+        shift
+        exclusions=$@
 
-while read directory exclusions; do
 	echo "Creating databases for ${directory}"
 	ctags_exclude=""
 	mkid_exclude=""
@@ -27,5 +28,20 @@ while read directory exclusions; do
 	done
 	ctags -f "${directory}/tags" --exclude=.git --exclude=.repo ${ctags_exclude} -R --extra=+fq --fields=+afiksSt ${directory}
 	mkid -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -x lisp ${mkid_exclude} -o ${directory}/ID ${directory} 2> /dev/null
-done < ~/.projects
+}
 
+if [ -z "$1" ]; then
+    # Process the projects
+    
+    if [ ! -e ~/.projects ]; then
+            echo "No ~/.projects file. No databases to update"
+            exit
+    fi
+
+    while read directory exclusions; do
+        process $directory $exclusions
+    done < ~/.projects
+else
+    # Process only the immediate arguments
+    process $@
+fi
