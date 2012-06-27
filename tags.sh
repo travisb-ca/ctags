@@ -12,6 +12,9 @@ tags_file="/Volumes/UserBackup/TBrown/work/workspace/tags"
 id_file="/Volumes/UserBackup/TBrown/work/workspace/ID"
 source_files="/Volumes/UserBackup/TBrown/work/workspace"
 
+# Macros to ignore with ctags
+ctags_ignore_macros="-I EXPORT_SYMBOL,EXPORT_SYMBOL_GPL"
+
 # First arg is the directory to process.
 # Any other args are subdrectories to skip
 function process {
@@ -26,7 +29,7 @@ function process {
 		ctags_exclude="${ctags_exclude} --exclude=${directory}/${dir}"
 		mkid_exclude="${mkid_exclude} --prune=${directory}/${dir}"
 	done
-	ctags -f "${directory}/tags" --exclude=.git --exclude=.repo ${ctags_exclude} -R --extra=+fq --fields=+afiksSt ${directory}
+	ctags -f "${directory}/tags" ${ctags_ignore_macros} --exclude=.git --exclude=.repo ${ctags_exclude} -R --extra=+fq --fields=+afiksSt ${directory}
 	mkid -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -x lisp ${mkid_exclude} -o ${directory}/ID ${directory} 2> /dev/null
 }
 
