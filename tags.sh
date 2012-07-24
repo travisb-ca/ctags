@@ -29,8 +29,10 @@ function process {
 		ctags_exclude="${ctags_exclude} --exclude=${directory}/${dir}"
 		mkid_exclude="${mkid_exclude} --prune=${directory}/${dir}"
 	done
-	ctags -f "${directory}/tags" ${ctags_ignore_macros} --exclude=.git --exclude=.repo ${ctags_exclude} -R --extra=+fq --fields=+afiksSt ${directory}
-	mkid -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -x lisp ${mkid_exclude} -o ${directory}/ID ${directory} 2> /dev/null
+	ctags -f "${directory}/tags.new" ${ctags_ignore_macros} --exclude=.git --exclude=.repo ${ctags_exclude} -R --extra=+fq --fields=+afiksSt ${directory}
+        mv "${directory}/tags.new" "${directory}/tags"
+	mkid -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -x lisp ${mkid_exclude} -o ${directory}/ID.new ${directory} 2> /dev/null
+        mv "${directory}/ID.new" "${directory}/ID"
 }
 
 if [ -z "$1" ]; then
