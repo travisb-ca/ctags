@@ -23,16 +23,32 @@ function process {
         exclusions=$@
 
 	echo "Creating databases for ${directory}"
+        suffix=".new"
 	ctags_exclude=""
 	mkid_exclude=""
 	for dir in $exclusions; do
 		ctags_exclude="${ctags_exclude} --exclude=${directory}/${dir}"
 		mkid_exclude="${mkid_exclude} --prune=${directory}/${dir}"
 	done
-	ctags -f "${directory}/tags.new" ${ctags_ignore_macros} --exclude=.git --exclude=.repo ${ctags_exclude} -R --extra=+fq --fields=+afiksSt ${directory}
-        mv "${directory}/tags.new" "${directory}/tags"
-	mkid -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -x lisp ${mkid_exclude} -o ${directory}/ID.new ${directory} 2> /dev/null
-        mv "${directory}/ID.new" "${directory}/ID"
+
+        # If we don't have any tags build them inplace to be useful as soon as
+        # possible
+        if [ ! -e "${directory}/tags" -a ! -e "${directory}/ID" ]; then
+            suffix=""
+        fi
+
+	ctags -f "${directory}/tags${suffix}" ${ctags_ignore_macros} --exclude=.git --exclude=.repo ${ctags_exclude} -R --extra=+fq --fields=+afiksSt ${directory}
+        
+        if [ -n "$suffix" ]; then
+            mv "${directory}/tags${suffix}" "${directory}/tags"
+        fi
+
+	mkid -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -x lisp ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null
+
+        if [ -n "$suffix" ]; then
+            mv "${directory}/ID${suffix}" "${directory}/ID"
+        fi
+
 }
 
 if [ -z "$1" ]; then
