@@ -43,7 +43,7 @@ function process {
             mv "${directory}/tags${suffix}" "${directory}/tags"
         fi
 
-	mkid -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -x lisp ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null
+	mkid --lang-map=${HOME}/bin/id-lang.map -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -x lisp ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null
 
         if [ -n "$suffix" ]; then
             mv "${directory}/ID${suffix}" "${directory}/ID"

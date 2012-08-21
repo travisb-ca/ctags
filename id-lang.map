@@ -99,6 +99,8 @@ configure.in		m4
 
 *.rb			perl
 
+*.py			perl
+
 *.Z			FILTER gzip -d <%s
 *.gz			FILTER gzip -d <%s
 *.bz2			FILTER bzip2 -d <%s
