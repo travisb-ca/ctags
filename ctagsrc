@@ -1,3 +1,9 @@
+--langmap=c++:+.tin
+--langmap=c++:+.itin
+--langdef=tacc
+--langmap=tacc:+.tac
+--regex-tacc=/^\s*type ([A-Z]\w+)/\1/t,type/
+--regex-tacc=/^\s*\w*[aA]ttr ([a-z]\w+)/\1/a,attr/
 --langdef=INI
 --langmap=INI:.ini
 --regex-INI=/^[ \t]*\[(.*)\]/\1/b,block/
