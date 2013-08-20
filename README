@@ -1,0 +1,49 @@
+Overview
+============================================================
+This is a set of scripts and configurations I use to create code navigation
+databases for use with Vim. They require Exhuberant ctags[0] and id-utils[1].
+The Vim plugin lid.vim[2] is useful for the id-utils integration.
+
+Installation
+============================================================
+Installation is easy. Simple copy/link ctagsrc to ~/.ctagsrc and place tags.sh
+into an appropriate directory in your $PATH.
+
+Usage
+============================================================
+
+Make_system_tags.sh
+--------------------------------------------------
+Make_system_tags.sh is a script which creates a ctags database from the system
+headers. If you are writing programs where you use the system headers much I
+recommend running it once. It will create the file ~/.tags for all the system
+headers. This is most useful for C and C++.
+
+tags.sh
+--------------------------------------------------
+You can use tags.sh in one of two ways. The first is 'tags.sh .' which creates
+the ctags and id-utils databases for the current directory and all the
+subdirectories.
+
+The second way is to fill all the directories you wish to produce databases for
+in the file ~/.projects. The format of this file is one project per line:
+
+project_path [ignore_dir1 [ignore_dir2 [ ... ]]]
+
+That is, when called like 'tags.sh' every line in ~/.projects represents a
+project or checkout. All the subdirectories except the ones listed after the
+first directory of the line, will be included in the database created. Excluded
+directories will be excluded. Many version control directories are automatically
+excluded.
+
+It is safe and convenient, on larger projects, to run tags.sh while using an
+existing database. A new database will be created with the most up to date
+information and then moved into place when complete. This way you can use a
+slightly out-of-date navigation database until the new one is finished being
+created.
+
+References
+============================================================
+[0] http://ctags.sourceforge.net/
+[1] http://www.gnu.org/software/idutils/idutils.html
+[2] http://www.vim.org/scripts/script.php?script_id=251
