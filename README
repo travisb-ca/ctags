@@ -40,7 +40,8 @@ It is safe and convenient, on larger projects, to run tags.sh while using an
 existing database. A new database will be created with the most up to date
 information and then moved into place when complete. This way you can use a
 slightly out-of-date navigation database until the new one is finished being
-created.
+created. If no database already exists then the new ctags database is usable, if
+slow and incomplete, while the database is being created.
 
 References
 ============================================================
