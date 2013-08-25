@@ -37,13 +37,13 @@ function process {
             suffix=""
         fi
 
-	ctags -f "${directory}/tags${suffix}" ${ctags_ignore_macros} --exclude=.git --exclude=.repo ${ctags_exclude} -R --extra=+fq --fields=+afiksSt ${directory}
+	ctags -f "${directory}/tags${suffix}" ${ctags_ignore_macros} --exclude=.git --exclude=.repo --exclude=.pc ${ctags_exclude} -R --extra=+fq --fields=+afiksSt ${directory}
         
         if [ -n "$suffix" ]; then
             mv "${directory}/tags${suffix}" "${directory}/tags"
         fi
 
-	mkid --lang-map=${HOME}/bin/id-lang.map -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -x lisp ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null
+	mkid --lang-map=${HOME}/bin/id-lang.map -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -p ${directory}/.pc -x lisp ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null
 
         if [ -n "$suffix" ]; then
             mv "${directory}/ID${suffix}" "${directory}/ID"
