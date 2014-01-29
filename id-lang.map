@@ -101,6 +101,10 @@ configure.in		m4
 
 *.py			perl
 
+*.tin                   C++
+*.itin                  C++
+*.tac                   text
+
 *.Z			FILTER gzip -d <%s
 *.gz			FILTER gzip -d <%s
 *.bz2			FILTER bzip2 -d <%s
