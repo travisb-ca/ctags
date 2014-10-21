@@ -2,8 +2,10 @@
 --langmap=c++:+.itin
 --langdef=tacc
 --langmap=tacc:+.tac
---regex-tacc=/^\s*type ([A-Z]\w+)/\1/t,type/
---regex-tacc=/^\s*\w*[aA]ttr ([a-z]\w+)/\1/a,attr/
+--regex-tacc=/^[ \t]*([a-zA-Z0-9_]+) .*Tac::Namespace/\1/n,namespaces/
+--regex-tacc=/^[ \t]*([a-zA-Z0-9_]+) .*Tac::Enum/\1/g,enumerator names/
+--regex-tacc=/^[ \t]*([a-zA-Z0-9_]+) .*Tac::Type/\1/s,type/
+--regex-tacc=/^[ \t]*([a-zA-Z0-9_]+)[a-zA-Z0-9_: ]*?;/\1/m,type or enum member/
 --langdef=INI
 --langmap=INI:.ini
 --regex-INI=/^[ \t]*\[(.*)\]/\1/b,block/
