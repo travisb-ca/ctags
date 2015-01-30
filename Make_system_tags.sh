@@ -14,6 +14,6 @@ case `uname` in
 		directories="/usr/include"
 esac
 
-ctags -V -f ${tags_file} -R --extra=+fq --fields=+afiksSt $directories
+ctags -f ${tags_file} -R --extra=+fq --fields=+afiksSt $directories
 
 
