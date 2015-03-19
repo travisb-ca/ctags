@@ -42,7 +42,9 @@ function process {
 	mkid --lang-map=${HOME}/bin/id-lang.map -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -p ${directory}/.pc -x lisp ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null &
 
         wait
-        python - tags${suffix} tags.tmp <<END
+
+        if [ -f tags${suffix} ]; then
+                python - tags${suffix} tags.tmp <<END
 #!/usr/bin/env python
 # After the tags file has been sorted resort each tag based on the kind
 #
@@ -88,7 +90,8 @@ lines_to_sort.sort(key=extract_key)
 outfile.write('\n'.join(lines_to_sort))
 END
 
-        mv tags.tmp tags${suffix}
+                mv tags.tmp tags${suffix}
+        fi
 
         if [ -n "$suffix" ]; then
             mv "${directory}/tags${suffix}" "${directory}/tags"
