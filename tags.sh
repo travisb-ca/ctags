@@ -42,6 +42,54 @@ function process {
 	mkid --lang-map=${HOME}/bin/id-lang.map -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -p ${directory}/.pc -x lisp ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null &
 
         wait
+        python - tags${suffix} tags.tmp <<END
+#!/usr/bin/env python
+# After the tags file has been sorted resort each tag based on the kind
+#
+# Usage: kindsort.py infile outfile
+
+import sys
+
+kind_priority = 'cstgfmuvF' # anything not in this list will sort last
+
+def extract_key(line):
+	if line[0] == '!':
+		return 0
+
+	kind = line.split(';"\t')[1][0]
+	try:
+		index = kind_priority.index(kind)
+	except:
+		index = len(kind_priority)
+
+	return index
+
+infile = open(sys.argv[1], 'r')
+outfile = open(sys.argv[2], 'w')
+
+lines_to_sort = []
+current_tag = ''
+
+for line in infile:
+	tag = line.split('\t', 1)[0]
+
+	if tag != current_tag:
+		# We've moved onto a new tag, so sort what we've got and start
+		# again
+		lines_to_sort.sort(key=extract_key)
+		outfile.write(''.join(lines_to_sort))
+
+		lines_to_sort = []
+		current_tag = tag
+
+	lines_to_sort.append(line)
+
+lines_to_sort.sort(key=extract_key)
+outfile.write('\n'.join(lines_to_sort))
+END
+
+        mv tags.tmp tags${suffix}
+
         if [ -n "$suffix" ]; then
             mv "${directory}/tags${suffix}" "${directory}/tags"
             mv "${directory}/ID${suffix}" "${directory}/ID"
