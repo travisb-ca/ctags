@@ -43,8 +43,8 @@ function process {
 
         wait
 
-        if [ -f tags${suffix} ]; then
-                python - tags${suffix} tags.tmp <<END
+        if [ -f "${directory}/tags${suffix}" ]; then
+                python - "${directory}/tags${suffix}" "${directory}/tags.tmp" <<END
 #!/usr/bin/env python
 # After the tags file has been sorted resort each tag based on the kind
 #
@@ -90,7 +90,7 @@ lines_to_sort.sort(key=extract_key)
 outfile.write('\n'.join(lines_to_sort))
 END
 
-                mv tags.tmp tags${suffix}
+                mv "${directory}/tags.tmp" "${directory}/tags${suffix}"
         fi
 
         if [ -n "$suffix" ]; then
