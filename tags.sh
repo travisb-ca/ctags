@@ -7,11 +7,6 @@
 #
 # /home/travis/projects/foo annoying_directory a/r/s/t/listings
 
-#ctags_exe="c:\documents and settings\tbrown\my documents\bin\ctags.exe"
-tags_file="/Volumes/UserBackup/TBrown/work/workspace/tags"
-id_file="/Volumes/UserBackup/TBrown/work/workspace/ID"
-source_files="/Volumes/UserBackup/TBrown/work/workspace"
-
 # Macros to ignore with ctags
 ctags_ignore_macros="-I EXPORT_SYMBOL,EXPORT_SYMBOL_GPL"
 

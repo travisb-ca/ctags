@@ -1,5 +1,4 @@
 #!/bin/bash
-#ctags_exe="c:\documents and settings\tbrown\my documents\bin\ctags.exe"
 tags_file="${HOME}/.tags"
 
 case `uname` in
