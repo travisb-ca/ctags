@@ -36,7 +36,7 @@ function process {
         
 	mkid --lang-map=${HOME}/bin/id-lang.map -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -p ${directory}/.pc -x lisp ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null &
 
-        wait
+        wait %1 # wait for ctags
         
         if [ -f "${directory}/tags${suffix}" ]; then
                 python - "${directory}/tags${suffix}" "${directory}/tags.tmp" <<END
@@ -94,6 +94,8 @@ END
 
             mv "${directory}/tags.tmp" "${directory}/tags${suffix}"
         fi
+
+        wait # wait for mkid
 
         if [ -n "$suffix" ]; then
             mv "${directory}/tags${suffix}" "${directory}/tags"
