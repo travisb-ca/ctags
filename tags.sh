@@ -24,7 +24,7 @@ function process {
            return
         fi
         suffix=".new"
-	ctags_exclude=""
+	ctags_exclude="--exclude=${directory}/tags --exclude=${directory}/tags.new"
 	mkid_exclude=""
 	for dir in $exclusions; do
 		ctags_exclude="${ctags_exclude} --exclude=${directory}/${dir}"
