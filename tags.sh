@@ -17,7 +17,12 @@ function process {
         shift
         exclusions=$@
 
-	echo "Creating databases for ${directory}"
+        if [ -d ${directory} ]; then
+           echo "Creating databases for ${directory}"
+        else
+           echo "Skipping databases for ${directory}"
+           return
+        fi
         suffix=".new"
 	ctags_exclude=""
 	mkid_exclude=""
