@@ -29,7 +29,13 @@ function process {
 	ctags_exclude+="-name .pc -prune -o "
 	ctags_exclude+="-path ${directory}/${dir}/tags -prune -o "
 	ctags_exclude+="-path ${directory}/${dir}/tags.new -prune -o "
-	mkid_exclude=""
+
+	mkid_exclude="--prune ${director}/.svn "
+	mkid_exclude+="--prune ${director}/CVS "
+	mkid_exclude+="--prune ${director}/.git "
+	mkid_exclude+="--prune ${director}/.repo "
+	mkid_exclude+="--prune ${director}/.pc "
+
 	for dir in $exclusions; do
 		ctags_exclude="${ctags_exclude} -path ${directory}/${dir} -prune -o"
 		mkid_exclude="${mkid_exclude} --prune=${directory}/${dir}"
@@ -43,7 +49,7 @@ function process {
 
         find "${directory}" ${ctags_exclude} -type f -print | ctags --filter=yes --sort=no ${ctags_ignore_macros} -R --extra=+fq --fields=+afiksSt > "${directory}/tags${suffix}" &
         
-	mkid --lang-map=${HOME}/bin/id-lang.map -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -p ${directory}/.pc -x lisp ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null &
+	mkid --lang-map=${HOME}/bin/id-lang.map -x lisp ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null &
 
         wait %1 # wait for ctags
         LC_ALL=C sort -o "${directory}/tags${suffix}" "${directory}/tags${suffix}"
