@@ -24,10 +24,14 @@ function process {
            return
         fi
         suffix=".new"
-	ctags_exclude="--exclude=${directory}/tags --exclude=${directory}/tags.new"
+	ctags_exclude="-name .git -prune -o "
+	ctags_exclude+="-name .repo -prune -o "
+	ctags_exclude+="-name .pc -prune -o "
+	ctags_exclude+="-path ${directory}/${dir}/tags -prune -o "
+	ctags_exclude+="-path ${directory}/${dir}/tags.new -prune -o "
 	mkid_exclude=""
 	for dir in $exclusions; do
-		ctags_exclude="${ctags_exclude} --exclude=${directory}/${dir}"
+		ctags_exclude="${ctags_exclude} -path ${directory}/${dir} -prune -o"
 		mkid_exclude="${mkid_exclude} --prune=${directory}/${dir}"
 	done
 
@@ -37,7 +41,7 @@ function process {
             suffix=""
         fi
 
-        find "${directory}" -type f | ctags --filter=yes --sort=no ${ctags_ignore_macros} --exclude=.git --exclude=.repo --exclude=.pc ${ctags_exclude} -R --extra=+fq --fields=+afiksSt > "${directory}/tags${suffix}" &
+        find "${directory}" ${ctags_exclude} -type f -print | ctags --filter=yes --sort=no ${ctags_ignore_macros} -R --extra=+fq --fields=+afiksSt > "${directory}/tags${suffix}" &
         
 	mkid --lang-map=${HOME}/bin/id-lang.map -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -p ${directory}/.pc -x lisp ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null &
 
