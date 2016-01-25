@@ -37,11 +37,12 @@ function process {
             suffix=""
         fi
 
-        find "${directory}" -type f | ctags --filter=yes --sort=no ${ctags_ignore_macros} --exclude=.git --exclude=.repo --exclude=.pc ${ctags_exclude} -R --extra=+fq --fields=+afiksSt | LC_ALL=C sort > "${directory}/tags${suffix}" &
+        find "${directory}" -type f | ctags --filter=yes --sort=no ${ctags_ignore_macros} --exclude=.git --exclude=.repo --exclude=.pc ${ctags_exclude} -R --extra=+fq --fields=+afiksSt > "${directory}/tags${suffix}" &
         
 	mkid --lang-map=${HOME}/bin/id-lang.map -p ${directory}/.svn -p ${directory}/CVS -p ${directory}/.git -p ${directory}/.repo -p ${directory}/.pc -x lisp ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null &
 
         wait %1 # wait for ctags
+        LC_ALL=C sort -o "${directory}/tags${suffix}" "${directory}/tags${suffix}"
         
         if [ -f "${directory}/tags${suffix}" ]; then
                 python - "${directory}/tags${suffix}" "${directory}/tags.tmp" <<END
