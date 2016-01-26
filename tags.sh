@@ -30,11 +30,11 @@ function process {
 	ctags_exclude+="-path ${directory}/${dir}/tags -prune -o "
 	ctags_exclude+="-path ${directory}/${dir}/tags.new -prune -o "
 
-	mkid_exclude="--prune ${director}/.svn "
-	mkid_exclude+="--prune ${director}/CVS "
-	mkid_exclude+="--prune ${director}/.git "
-	mkid_exclude+="--prune ${director}/.repo "
-	mkid_exclude+="--prune ${director}/.pc "
+	mkid_exclude="--prune ${directory}/.svn "
+	mkid_exclude+="--prune ${directory}/CVS "
+	mkid_exclude+="--prune ${directory}/.git "
+	mkid_exclude+="--prune ${directory}/.repo "
+	mkid_exclude+="--prune ${directory}/.pc "
 
 	for dir in $exclusions; do
 		ctags_exclude="${ctags_exclude} -path ${directory}/${dir} -prune -o"
