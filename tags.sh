@@ -49,10 +49,13 @@ function process {
         fi
 
         find "${directory}" ${ctags_exclude} -type f -print | ctags --filter=yes --sort=no ${ctags_ignore_macros} -R --extra=+fq --fields=+afiksSt > "${directory}/tags${suffix}" &
+
+        CTAGS=$!
         
 	mkid --lang-map=${HOME}/bin/id-lang.map -x lisp ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null &
 
-        wait %1 # wait for ctags
+        wait $CTAGS
+
         LC_ALL=C sort -o "${directory}/tags${suffix}" "${directory}/tags${suffix}"
         
         if [ -f "${directory}/tags${suffix}" ]; then
