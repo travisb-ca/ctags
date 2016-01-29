@@ -108,7 +108,12 @@ lines_to_sort.sort(key=extract_key)
 outfile.write('\n'.join(lines_to_sort))
 END
 
-            mv "${directory}/tags.tmp" "${directory}/tags${suffix}"
+            if [ "$?" -eq 0 ]; then
+               mv "${directory}/tags.tmp" "${directory}/tags${suffix}"
+            else
+               echo "Error resorting tags file"
+               exit
+            fi
         fi
 
         wait # wait for mkid
