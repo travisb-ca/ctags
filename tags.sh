@@ -27,8 +27,6 @@ function process {
 	ctags_exclude="-name .git -prune -o "
 	ctags_exclude+="-name .repo -prune -o "
 	ctags_exclude+="-name .pc -prune -o "
-	ctags_exclude+="-path ${directory}/${dir}/tags -prune -o "
-	ctags_exclude+="-path ${directory}/${dir}/tags.new -prune -o "
 
 	mkid_exclude="--prune ${directory}/.svn "
 	mkid_exclude+="--prune ${directory}/CVS "
@@ -40,6 +38,9 @@ function process {
 		ctags_exclude="${ctags_exclude} -path ${directory}/${dir} -prune -o"
 		mkid_exclude="${mkid_exclude} --prune=${directory}/${dir}"
 	done
+
+	ctags_exclude+="! -path ${directory}/tags -a "
+	ctags_exclude+="! -path ${directory}/tags.new -a "
 
         # If we don't have any tags build them inplace to be useful as soon as
         # possible
