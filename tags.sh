@@ -39,7 +39,7 @@ function process {
 		mkid_exclude="${mkid_exclude} --prune=${directory}/${dir}"
 	done
 
-	ctags_exclude+="! -path ${directory}/tags -a "
+	ctags_exclude+=" ! -path ${directory}/tags -a "
 	ctags_exclude+="! -path ${directory}/tags.new -a "
 
         # If we don't have any tags build them inplace to be useful as soon as
