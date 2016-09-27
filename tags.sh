@@ -52,7 +52,7 @@ function process {
 
         CTAGS=$!
         
-	mkid --lang-map=${HOME}/bin/id-lang.map -x lisp ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null &
+	mkid --lang-map=${HOME}/bin/id-lang.map -x 'lisp asm' ${mkid_exclude} -o ${directory}/ID${suffix} ${directory} 2> /dev/null &
 
         wait $CTAGS
 
